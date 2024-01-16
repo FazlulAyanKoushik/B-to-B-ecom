@@ -1,0 +1,3996 @@
+{
+	"info": {
+		"_postman_id": "17e1f832-17c0-4d05-adb3-4f6a9ebad4e3",
+		"name": "pharmaco",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26724804"
+	},
+	"item": [
+		{
+			"name": "merchant",
+			"item": [
+				{
+					"name": "addresses",
+					"item": [
+						{
+							"name": "Create Address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Create Address\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"label\": \"Keen Bridge\",\r\n      \"house_street\": \"Tilagor\",\r\n      \"upazila\": \"{{upazila_uid}}\",\r\n      \"district\": \"{{district_uid}}\",\r\n      \"division\": \"{{division_uid}}\",\r\n      \"country\": \"Bangladesh\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/address",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Get Address List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/address",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Get Address Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/address\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+pm.collectionVariables.get('merchant_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            console.log(\"An error has occurred. Error object:\");\r",
+											"            console.log(err);\r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    pm.collectionVariables.set(\"address_uid\", res.json().results[0].uid);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/address/{{address_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"address",
+										"{{address_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Address Detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Address Detail Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/address/upazila\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+pm.collectionVariables.get('merchant_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            console.log(\"An error has occurred. Error object:\");\r",
+											"            console.log(err);\r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    pm.collectionVariables.set(\"upazila_uid1\", res.json().results[1].uid);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"upazila\": \"{{upazila_uid1}}\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/address/{{address_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"address",
+										"{{address_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Address Detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Address Detail\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"label\": \"Zakir Hossain Playground\",\r\n      \"house_street\": \"Zakir Hossain Road\",\r\n      \"upazila\": \"{{upazila_uid1}}\",\r\n      \"district\": \"{{district_uid}}\",\r\n      \"division\": \"{{division_uid}}\",\r\n      \"country\": \"Bangladesh\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/address/{{address_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"address",
+										"{{address_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Address",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Delete Address\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/address/{{address_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"address",
+										"{{address_uid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.collectionVariables.get('url') + \"/api/v1/address/upazila\",",
+									"    method: \"GET\",",
+									"    header: {",
+									"        'Accept': '*/*',",
+									"        'Content-Type': 'application/json',",
+									"        Authorization: \"Bearer \"+pm.collectionVariables.get('merchant_token')",
+									"    },",
+									"},function (err, res) {",
+									"    if (err) {",
+									"            console.log(\"An error has occurred. Error object:\");",
+									"            console.log(err);",
+									"            throw new Error(\"An error has occurred. Check logs.\");",
+									"    }",
+									"    pm.collectionVariables.set(\"upazila_uid\", res.json().results[0].uid);",
+									"})",
+									"",
+									"pm.sendRequest({",
+									"    url: pm.collectionVariables.get('url') + \"/api/v1/address/district\",",
+									"    method: \"GET\",",
+									"    header: {",
+									"        'Accept': '*/*',",
+									"        'Content-Type': 'application/json',",
+									"        Authorization: \"Bearer \"+pm.collectionVariables.get('merchant_token')",
+									"    },",
+									"},function (err, res) {",
+									"    if (err) {",
+									"            console.log(\"An error has occurred. Error object:\");",
+									"            console.log(err);",
+									"            throw new Error(\"An error has occurred. Check logs.\");",
+									"    }",
+									"    pm.collectionVariables.set(\"district_uid\", res.json().results[0].uid);",
+									"})",
+									"",
+									"pm.sendRequest({",
+									"    url: pm.collectionVariables.get('url') + \"/api/v1/address/division\",",
+									"    method: \"GET\",",
+									"    header: {",
+									"        'Accept': '*/*',",
+									"        'Content-Type': 'application/json',",
+									"        Authorization: \"Bearer \"+pm.collectionVariables.get('merchant_token')",
+									"    },",
+									"},function (err, res) {",
+									"    if (err) {",
+									"            console.log(\"An error has occurred. Error object:\");",
+									"            console.log(err);",
+									"            throw new Error(\"An error has occurred. Check logs.\");",
+									"    }",
+									"    pm.collectionVariables.set(\"division_uid\", res.json().results[0].uid);",
+									"})"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "Add product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Add Product\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"base_product\": \"faa3d4d4-a089-49c9-ab07-6d4da8e95520\",\r\n    \"organization\": \"77c22675-be00-4d9d-bb7a-4ba7a5a113d9\",\r\n\t\"stock\": 1000,\r\n\t\"buying_price\": \"220.00\",\r\n\t\"selling_price\": \"290.00\",\r\n    \"fraction_mrp\": \"10\",\r\n    \"discount_price\": \"20\",\r\n    \"status\": \"PUBLISHED\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/products",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Product List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Get Products List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bill-corp",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/products",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Product Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Product Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/products\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+pm.collectionVariables.get('merchant_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            console.log(\"An error has occurred. Error object:\");\r",
+											"            console.log(err);\r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    pm.collectionVariables.set(\"product_uid\", res.json().results[0].uid);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/products/{{product_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products",
+										"{{product_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product(PUT)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Products Details\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"base_product\": \"ecb5599c-d909-4dcf-9195-81be206b0a1c\",\r\n    \"organization\": \"e9f2b588-1648-49b8-a366-d5854fefe7e8\",\r\n\t\"stock\": 800,\r\n\t\"buying_price\": \"220.00\",\r\n\t\"selling_price\": \"290.00\",\r\n    \"fraction_mrp\": \"5\",\r\n    \"discount_price\": \"5\",\r\n    \"status\": \"PUBLISHED\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/products/{{product_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products",
+										"{{product_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Products Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fraction_mrp\": \"10\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/products/{{product_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products",
+										"{{product_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product Discount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Product Discount\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{merchant_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"products\": [\"{{product_uid}}\"],\n    \"discount\": 20\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/products/discount",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products",
+										"discount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Products",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Search Product\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/search/products?search=his",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"search",
+										"products"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "his"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Product Category List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Products Categories\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/product/categories",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"product",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Delete Products\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/products/{{product_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"products",
+										"{{product_uid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "organizations",
+					"item": [
+						{
+							"name": "Create Organization",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Create an Organization\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{merchant_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"my new organization\",\r\n  \"kind\": \"abc\",\r\n  \"tax_number\": \"tax bacd\",\r\n  \"registration_no\": \"reg abcd\",\r\n  \"website_url\": \"http://www.abc.com\",\r\n  \"blog_url\": \"\",\r\n  \"linkedin_url\": \"http://www.abc.com\",\r\n  \"instagram_url\": \"http://www.abc.com\",\r\n  \"facebook_url\": \"http://www.abc.com\",\r\n  \"twitter_url\": \"http://www.abc.com\",\r\n  \"summary\": \"string\",\r\n  \"description\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Organization List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Get Organizations List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Current Organization Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Current Organization Info\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/default",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"default"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Current Organization Detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Current Organization Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/detail",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Organization Detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Current Organization Details\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"my new organization\",\r\n  \"kind\": \"abc\",\r\n  \"tax_number\": \"tax bacd\",\r\n  \"registration_no\": \"reg abcd\",\r\n  \"website_url\": \"http://www.abc.com\",\r\n  \"blog_url\": \"\",\r\n  \"linkedin_url\": \"http://www.abc.com\",\r\n  \"instagram_url\": \"http://www.abc.com\",\r\n  \"facebook_url\": \"http://www.abc.com\",\r\n  \"twitter_url\": \"http://www.abc.com\",\r\n  \"summary\": \"We work for quality not for quantity.\",\r\n  \"description\": \"string\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/detail",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Organization Detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Update Organization Details Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"This is an IT company. We develop products for making customers life easier.\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/detail",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "basic",
+					"item": [
+						{
+							"name": "Get All Brands",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get All Brands\", function () {   \r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/basic/brands",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"basic",
+										"brands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get All Categories\", function () {   \r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/basic/categories",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"basic",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Ingredients",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get All Ingredients\", function () {   \r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/basic/ingredients",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"basic",
+										"ingredients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Medicine-Physical-States",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get All Medicine Physical State\", function () {   \r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/basic/medicine-physical-states",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"basic",
+										"medicine-physical-states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Route-of-Administrations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get All Route of Administrations\", function () {   \r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/basic/route-of-administrations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"basic",
+										"route-of-administrations"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "order",
+					"item": [
+						{
+							"name": "Order List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Customer Order List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/orders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Order Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Customer Order Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/orders\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'X-Domain': 'bongo-pharma',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('merchant_token2')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"orders_uid\", res.json().results[0].uid);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/orders/{{orders_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"orders",
+										"{{orders_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Customer Order Status\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"delivery_status_name\": \"PROCESSING\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/orders/{{orders_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"orders",
+										"{{orders_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order Patch",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Customer Order Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"delivery_status_name\": \"COMPLETED\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/orders/{{orders_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"orders",
+										"{{orders_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Customer List (Order)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Ordered Customer List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/customers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"customers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{merchant_token2}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.collectionVariables.get('url') + \"/api/v1/auth/token\",",
+									"    method: \"POST\",",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({ phone: \"+8801752495463\", password: \"123456\" })",
+									"    },",
+									"    header: {",
+									"        'Accept': '*/*',",
+									"        'Content-Type': 'application/json',",
+									"    },",
+									"},function (err, res) {",
+									"    try {",
+									"        pm.collectionVariables.set(\"merchant_token2\", res.json().access)",
+									"    } catch(e) {",
+									"        console.log(e)",
+									"    }",
+									"",
+									"})"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "me",
+					"item": [
+						{
+							"name": "Personal Information",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Get Personal Information\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Personal Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Personal Information\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"Dipu\",\r\n    \"last_name\": \"Kanu\",\r\n    \"slug\": \"dipu-kanu\",\r\n    \"phone\": \"+8801311449836\",\r\n    \"email\": \"dipu@example.com\",\r\n    \"bengali_name\": \"Dipu\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Personal Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Personal Info Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bengali_name\": \"Kanu\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Request for a Merchant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Mercahnt - Request to be a Merchant\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"role\": \"STAFF\",\r\n  \"first_name\": \"Muntashir\",\r\n  \"last_name\": \"Wahid\",\r\n  \"email\": \"muntashir@example.com\",\r\n  \"bengali_name\": \"Tashir\",\r\n  \"phone\": \"+8801711910574\",\r\n  \"password\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/me/organizations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me",
+										"organizations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Merchant List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - List of Merchant\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/me/organizations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me",
+										"organizations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Merchant Details",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/me/organizations\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'X-Domain': 'bongo-pharma',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('merchant_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"merchant_uid\", res.json().results[1].uid);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Details of Merchant\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/me/organizations/{{merchant_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me",
+										"organizations",
+										"{{merchant_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Merchant Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Merchant Details\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"role\": \"STAFF\",\r\n  \"status\": \"ACTIVE\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/me/organizations/{{merchant_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me",
+										"organizations",
+										"{{merchant_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Merchant Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Merchant Details Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"role\": \"OWNER\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/me/organizations/{{merchant_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me",
+										"organizations",
+										"{{merchant_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Merchant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Delete Merchant\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/me/organizations/{{merchant_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"me",
+										"organizations",
+										"{{merchant_uid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "tags",
+					"item": [
+						{
+							"name": "Create Tag",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Create Tag\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"category\": \"PRODUCT\",\r\n  \"name\": \"Tablet\",\r\n  \"i18n\": \"en_EN\",\r\n  \"status\": \"ACTIVE\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/tags",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tag List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Tag List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/tags",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tag Details",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/tags\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'X-Domain': 'bongo-pharma',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('merchant_token2')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"tags_uid\", res.json().results[0].uid);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Tag Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/tags/{{tags_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"tags",
+										"{{tags_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Tag",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Tag\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"category\": \"PRODUCT\",\r\n  \"name\": \"Injection\",\r\n  \"i18n\": \"en_EN\",\r\n  \"status\": \"ACTIVE\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/tags/{{tags_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"tags",
+										"{{tags_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Tag Patch",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Update Tag Patch\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Tablet\"\r\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/tags/{{tags_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"tags",
+										"{{tags_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Tag",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Merchant - Delete Tag\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/tags/{{tags_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"tags",
+										"{{tags_uid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{merchant_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{merchant_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.sendRequest({",
+							"    url: pm.collectionVariables.get('url') + \"/api/v1/auth/token\",",
+							"    method: \"POST\",",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({ phone: \"+8801311449836\", password: \"12345678\" })",
+							"    },",
+							"    header: {",
+							"        'Accept': '*/*',",
+							"        'Content-Type': 'application/json',",
+							"    },",
+							"},function (err, res) {",
+							"    try {",
+							"        pm.collectionVariables.set(\"merchant_token\", res.json().access)",
+							"    } catch(e) {",
+							"        console.log(e)",
+							"    }",
+							"",
+							"})",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "global",
+			"item": [
+				{
+					"name": "Customer Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Customer - Customer Registration\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-DOMAIN",
+								"value": "bongo-pharma",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Mannan\",\r\n    \"last_name\": \"Sharma\",\r\n    \"phone\": \"+8801752495433\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"\",\r\n    \"bengali_name\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/auth/registration",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Organization Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Merchant - Organization Registration\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"first_name\": \"Saifullah\",\r\n  \"last_name\": \"Shahen\",\r\n  \"phone\": \"+8801752495463\",\r\n  \"organization_name\": \"Bongo Pharma\",\r\n  \"password\": \"123456\",\r\n  \"retype_password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/auth/organization/registration",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"organization",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain Availability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Global - Check Domain Availability\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"domain_name\": \"hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/domains/hello",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"domains",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "address",
+					"item": [
+						{
+							"name": "Create Address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Create Customer Address\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-DOMAIN",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"label\": \"Playground\",\r\n      \"house_street\": \"G/9, Lalmatia\",\r\n      \"upazila_uid\": \"{{upazila_uid}}\",\r\n      \"district_uid\": \"{{district_uid}}\",\r\n      \"division_uid\": \"{{division_uid}}\",\r\n      \"country\": \"India\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Customer Address List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address Detail",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/addresses/customer\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('user_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"useraddress\", res.json().results[0].uid);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Customer Address Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer/{{useraddress}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer",
+										"{{useraddress}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Update Customer Address\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"label\": \"Playground\",\r\n      \"house_street\": \"G/9, Lalmatia\",\r\n      \"upazila_uid\": \"{{upazila_uid1}}\",\r\n      \"district_uid\": \"{{district_uid}}\",\r\n      \"division_uid\": \"{{division_uid}}\",\r\n      \"country\": \"Bangladesh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer/{{useraddress}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer",
+										"{{useraddress}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Address Patch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Update Customer Address (PATCH)\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"upazila_uid\": \"{{upazila_uid}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer/{{useraddress}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer",
+										"{{useraddress}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Delete Customer Address\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer/{{useraddress}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer",
+										"{{useraddress}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Address for Place Order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Create Customer Address for Place Order\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-DOMAIN",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"label\": \"Playground\",\r\n      \"house_street\": \"G/9, Lalmatia\",\r\n      \"upazila_uid\": \"{{upazila_uid}}\",\r\n      \"district_uid\": \"{{district_uid}}\",\r\n      \"division_uid\": \"{{division_uid}}\",\r\n      \"country\": \"India\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/addresses/customer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"addresses",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{user_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "cart",
+					"item": [
+						{
+							"name": "Add Product on Cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Add Product on Cart\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,204]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-DOMAIN",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"product\": \"napa-7\",\r\n  \"quantity\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/carts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"carts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cart Products List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Cart Products List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/carts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"carts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Place Customer Order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Place Customer Order\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/addresses/customer\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('user_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"useraddress_uid\", res.json().results[0].uid);\r",
+											"})\r",
+											"\r",
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/payments\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+pm.collectionVariables.get('user_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            console.log(\"An error has occurred. Error object:\");\r",
+											"            console.log(err);\r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    pm.collectionVariables.set(\"payment_method\", res.json().results[0].uid);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-DOMAIN",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"address_uid\": \"{{useraddress_uid}}\",\r\n  \"payment_method_uid\": \"{{payment_method}}\",\r\n  \"receiver_name\": \"Mannan Sharma\",\r\n  \"receiver_phone\": \"+8801752495433\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/customers/orders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"customers",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Customer Order List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Customer Order List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/customers/orders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"customers",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Customer Order Details",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/customers/orders\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'X-Domain': 'bongo-pharma',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('user_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"customer_orders_uid\", res.json().results[0].uid);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Customer Order Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/customers/orders/{{customer_orders_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"customers",
+										"orders",
+										"{{customer_orders_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Payment Options",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Get All Payment Options\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/payments",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"payments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delivery Charge",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Customer Delivery Charge\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/customers/delivery-charge/{{useraddress_uid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"customers",
+										"delivery-charge",
+										"{{useraddress_uid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Product for Delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Add Product on Cart for Perform Delete\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,204]);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-DOMAIN",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"product\": \"napa-7\",\r\n  \"quantity\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/we/carts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"carts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Cart Product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Customer - Delete Cart Products\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/we/carts\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        'X-Domain': \"bongo-pharma\",\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('user_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"product_slug\", res.json().products[0].slug);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-DOMAIN",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/we/carts/{{product_slug}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"we",
+										"carts",
+										"{{product_slug}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "Products List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Global - Products List\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/products",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Product Details",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.sendRequest({\r",
+											"    url: pm.collectionVariables.get('url') + \"/api/v1/products\",\r",
+											"    method: \"GET\",\r",
+											"    header: {\r",
+											"        'Accept': '*/*',\r",
+											"        'X-Domain': 'bongo-pharma',\r",
+											"        'Content-Type': 'application/json',\r",
+											"        Authorization: \"Bearer \"+ pm.collectionVariables.get('user_token')\r",
+											"    },\r",
+											"},function (err, res) {\r",
+											"    if (err) {\r",
+											"            \r",
+											"            throw new Error(\"An error has occurred. Check logs.\");\r",
+											"    }\r",
+											"    console.log(res.json())\r",
+											"    pm.collectionVariables.set(\"product_slug\", res.json().results[0].slug);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Global - Products Details\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Domain",
+										"value": "bongo-pharma",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/v1/products/{{product_slug}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"{{product_slug}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{user_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.sendRequest({",
+							"    url: pm.collectionVariables.get('url') + \"/api/v1/auth/token\",",
+							"    method: \"POST\",",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({ phone: \"+8801752495433\", password: \"123456\" })",
+							"    },",
+							"    header: {",
+							"        'Accept': '*/*',",
+							"        'Content-Type': 'application/json',",
+							"    },",
+							"},function (err, res) {",
+							"    pm.collectionVariables.set(\"user_token\", res.json().access);",
+							"})"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "address",
+			"item": [
+				{
+					"name": "Upazila List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Global - Upazila List\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/address/upazila",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"address",
+								"upazila"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "District List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Global - District List\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/address/district",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"address",
+								"district"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Division List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Global - Division List\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/address/division",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"address",
+								"division"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "merchant_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "baseproduct",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "organization1",
+			"value": ""
+		},
+		{
+			"key": "district",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "division",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "payment_method",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "useraddress",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "address",
+			"value": ""
+		},
+		{
+			"key": "address_uid",
+			"value": ""
+		},
+		{
+			"key": "product_uid",
+			"value": ""
+		},
+		{
+			"key": "product_slug",
+			"value": ""
+		},
+		{
+			"key": "useraddress_uid",
+			"value": ""
+		},
+		{
+			"key": "customer_orders_uid",
+			"value": ""
+		},
+		{
+			"key": "customer_address_uid",
+			"value": ""
+		},
+		{
+			"key": "merchant_token2",
+			"value": ""
+		},
+		{
+			"key": "orders_uid",
+			"value": ""
+		},
+		{
+			"key": "organization_user_uid",
+			"value": ""
+		},
+		{
+			"key": "merchant_uid",
+			"value": ""
+		},
+		{
+			"key": "upazila_uid",
+			"value": ""
+		},
+		{
+			"key": "division_uid",
+			"value": ""
+		},
+		{
+			"key": "district_uid",
+			"value": ""
+		},
+		{
+			"key": "upazila_uid1",
+			"value": ""
+		},
+		{
+			"key": "tags_uid",
+			"value": ""
+		},
+		{
+			"key": "user_token",
+			"value": ""
+		}
+	]
+}

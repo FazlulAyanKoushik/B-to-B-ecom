@@ -1,0 +1,19 @@
+[Unit]
+Description=uWSGI Service
+After=syslog.target
+
+[Service]
+User=django
+Group=www-data
+WorkingDirectory=/home/django/project
+Environment="PATH=/home/django/env/bin"
+ExecStart=/home/django/env/bin/uwsgi --ini /home/django/project/conf/uwsgi/live.ini
+Restart=always
+RestartSec=3
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
