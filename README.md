@@ -1,4 +1,4 @@
-# pB-to-B-backend
+# B-to-B-backend
 
 All the backend business logic connected to the Pharmik project. This is basically a Django project running Django REST Framework.
 
